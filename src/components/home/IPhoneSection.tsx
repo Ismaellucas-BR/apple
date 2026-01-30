@@ -1,15 +1,19 @@
 import { Link } from "react-router";
-import BgIPhone from "../../assets/imgs/hero_iphone_family__fuz5j2v5xx6y_small_2x.jpg";
+import BgIPhone from "../../assets/imgs/home/hero_iphone_family__fuz5j2v5xx6y_small_2x.jpg";
 
-export default function IPhoneSection() {
+interface IPhoneProps {
+  hiddenSection: String;
+}
+
+export default function IPhoneSection(props: IPhoneProps) {
   return (
     <section
-      className="flex flex-col justify-start items-center bg-cinzaClaro bg-[center_top] bg-no-repeat bg-cover h-[31.25rem]"
+      className={`flex flex-col justify-start items-center bg-cinzaClaro bg-[center_top] bg-no-repeat bg-cover h-[31.25rem] ${props.hiddenSection} md:h-[34rem] `}
       style={{
         backgroundImage: `url(${BgIPhone})`,
       }}>
       <div className="flex flex-col justify-center items-center w-full gap-2 pt-10">
-        <h2 className="font-apple font-semibold text-[2rem] leading-6">
+        <h2 className="font-apple font-semibold text-[2rem] leading-6 lg:text-[2.5rem]">
           iPhone
         </h2>
         <p className="font-apple font-normal text-[1.1875rem] text-center leading-6 w-1/2">
