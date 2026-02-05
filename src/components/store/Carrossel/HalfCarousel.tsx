@@ -1,39 +1,21 @@
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
-import { useEffect, useRef, useState } from "react";
-import { PauseIcon, PlayIcon } from "@phosphor-icons/react";
-
-type CarouselItem = {
-  bgImage?: string;
-  bgTabletImage?: string;
-  logo?: string;
-  category?: string;
-  title?: string;
-  subtitle?: string;
-  spanContent?: string;
-  buttonText?: string;
-  link?: string;
-  validOffer?: boolean;
-};
+import { useEffect, useState } from "react";
+import MortarBoard from "../../../assets/svgs/Mortarboard";
+import type { CarouselItem } from "../../../types/carousel";
+import ProductsColors from "../ProductsColors";
 
 type CarouselProps = {
   items: CarouselItem[];
 };
 
 export function HalfCarousel({ items }: CarouselProps) {
-  const autoplay = useRef(Autoplay({ delay: 4000, stopOnInteraction: false }));
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      align: "start",
-      loop: false,
-      containScroll: "trimSnaps",
-    },
-    [autoplay.current]
-  );
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    loop: false,
+    containScroll: "trimSnaps",
+  });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -50,102 +32,126 @@ export function HalfCarousel({ items }: CarouselProps) {
     };
   }, [emblaApi]);
 
-  const toggleAutoplay = () => {
-    if (!emblaApi) return;
-
-    isPlaying ? autoplay.current.stop() : autoplay.current.play();
-    setIsPlaying(!isPlaying);
-  };
-
   return (
     <div className="w-full max-w-5xl mx-auto pb-10">
       {/* SLIDES */}
-      <div ref={emblaRef} className="overflow-hidden">
+      <div ref={emblaRef}>
         <div className="flex gap-4 md:gap-2">
           {items.map((item, index) => (
-            <div
-              key={index}
-              className="flex-[0_0_80%] md:flex-[0_0_70%] shadow rounded-lg">
-              <div className="relative flex flex-col justify-center items-start h-[28.125rem] md:h-[22rem] text-white">
+            <div key={index} className="flex-[0_0_80%] md:flex-[0_0_70%]">
+              <div className="relative h-[28.125rem] md:h-[22rem] rounded-2xl shadow-xl overflow-hidden bg-white">
                 {/* Background */}
-                <picture className="absolute inset-0">
-                  {item.bgTabletImage && (
-                    <source
-                      media="(min-width: 768px)"
-                      srcSet={item.bgTabletImage}
+                {!item.productCard && (
+                  <picture className="absolute inset-0">
+                    {item.bgTabletImage && (
+                      <source
+                        media="(min-width: 768px)"
+                        srcSet={item.bgTabletImage}
+                      />
+                    )}
+                    <img
+                      src={item.bgImage}
+                      alt=""
+                      className="w-full h-full object-cover object-[center_20%]"
                     />
-                  )}
-                  <img
-                    src={item.bgImage}
-                    alt=""
-                    className="w-full h-full object-cover object-[center_20%]"
-                  />
-                </picture>
-
+                  </picture>
+                )}
                 {/* Content */}
-                <div className="relative z-10 h-full p-6 flex flex-col justify-start items-start gap-3">
-                  {item.logo && (
-                    <img src={item.logo} alt="" className="md:hidden w-1/3" />
-                  )}
-                  {item.validOffer ? (
-                    <>
-                      <p className="text-red-400 font-semibold">
-                        OFERTA VÁLIDA
-                      </p>
-                      <p className="text-sm opacity-80 text-CinzaEscuro">
-                        Essa oferta não está mais disponível
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-center md:text-left text-[1rem] md:text-[1.125rem] leading-tight text-CinzaEscuro">
-                        <span className="font-bold">{item.category}</span>
-                        <span className="inline-block mx-1">·</span>
-                        <span>{item.subtitle}</span>
-                      </p>
+                {!item.productCard && (
+                  <div className="relative z-10 h-full p-6 flex flex-col justify-start items-start gap-3">
+                    {item.logo && (
+                      <img src={item.logo} alt="" className="md:hidden w-1/3" />
+                    )}
 
-                      <p className="text-sm opacity-90 text-CinzaEscuro">
-                        Condições especiais por tempo limitado
-                      </p>
+                    {item.validOffer ? (
+                      <div className="flex flex-col gap-1">
+                        {item.pretitle && (
+                          <p
+                            className={`font-apple font-semibold text-[0.75rem] ${
+                              item.extraClasseColor || "text-[#424245]"
+                            }`}>
+                            {item.pretitle}
+                          </p>
+                        )}
+                        <p
+                          className={`font-apple font-semibold leading-7 text-[1.375rem] whitespace-pre-line  ${
+                            item.extraClasseColor || "text-CinzaEscuro"
+                          }`}>
+                          {item.title}
+                        </p>
+                        {item.subtitle && (
+                          <p
+                            className={`font-apple font-semibold leading-7 text-[1rem] whitespace-pre-line ${
+                              item.extraClasseColorSubtitle ||
+                              "text-CinzaEscuro"
+                            }`}>
+                            {item.subtitle}
+                          </p>
+                        )}
+                        {item.postitle && (
+                          <p
+                            className={`font-apple text-[1.1rem] ${
+                              item.extraClasseColor || "text-CinzaEscuro"
+                            }`}>
+                            {item.postitle}
+                          </p>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="w-full">
+                        <div className="flex justify-between items-center gap-1">
+                          <span className="font-apple font-semibold text-[0.75rem] text-[#b64400]">
+                            OFERTA VÁLIDA
+                          </span>
+                          <MortarBoard />
+                        </div>
 
-                      <p className="text-xs opacity-70 text-CinzaEscuro">
-                        Sujeito à disponibilidade
-                      </p>
-                    </>
-                  )}
+                        <p className="flex flex-col gap-1 text-start text-[1rem] md:text-[1.125rem] leading-tight text-CinzaEscuro">
+                          <span className="font-apple font-semibold text-[#1d1d1f] text-[1.375rem] whitespace-pre-line">
+                            {item.title}
+                          </span>
 
-                  <a
-                    href={item.link}
-                    className="shrink-0 bg-cinzaClaro text-black rounded-full py-1.5 px-4 text-sm shadow">
-                    {item.buttonText}
-                  </a>
-                </div>
+                          <span className="font-apple font-semibold text-[1.1rem] leading-7 bg-[linear-gradient(108deg,#0079d0_0%,#9e52d8_32%,#da365c_84%,#d04901_100%)] bg-clip-text text-transparent">
+                            {item.subtitle}
+                          </span>
+
+                          <span>{item.spanContent}</span>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {item.productCard && (
+                  <div className="flex flex-col justify-between items-center gap-1 p-5 h-full">
+                    <div className="flex  flex-col items-center justify-end w-full">
+                      {item.header != false && (
+                        <div className="flex justify-end w-full">
+                          <MortarBoard />
+                        </div>
+                      )}
+                      <img
+                        src={item.productImg}
+                        alt={item.title}
+                        className="w-[12.375rem] h-[12.375rem]"
+                      />
+                    </div>
+                    {item.productCard && item.colors && (
+                      <ProductsColors colors={item.colors} />
+                    )}
+                    <div className="flex flex-col justify-start w-full px-5 mt-5 gap-1">
+                      <h2 className="font-apple text-[1.1rem] text-CinzaEscuro font-semibold line-clamp-2 min-h-[2.625rem] whitespace-pre-line">
+                        {item.title}
+                      </h2>
+                      <span className="font-apple text-[0.875rem] text-CinzaEscuro font-normal">
+                        {item.subtitle}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* CONTROLS */}
-      <div className="relative mt-6 flex items-center justify-center">
-        {/* Bullets */}
-        <div className="flex gap-2">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => emblaApi?.scrollTo(i)}
-              className={`w-2.5 h-2.5 rounded-full transition
-                ${i === selectedIndex ? "bg-black/80" : "bg-gray-400"}`}
-            />
-          ))}
-        </div>
-
-        {/* Play / Pause */}
-        <button
-          onClick={toggleAutoplay}
-          className="absolute right-4 bg-cinzaClaro p-2 rounded-full shadow">
-          {isPlaying ? <PauseIcon /> : <PlayIcon />}
-        </button>
       </div>
     </div>
   );
