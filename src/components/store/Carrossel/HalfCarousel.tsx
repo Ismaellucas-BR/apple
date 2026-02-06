@@ -33,16 +33,18 @@ export function HalfCarousel({ items }: CarouselProps) {
   }, [emblaApi]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto pb-10">
+    <div className="w-full max-w-5xl mx-auto pb-10 lg:mx-0">
       {/* SLIDES */}
       <div ref={emblaRef}>
-        <div className="flex gap-4 md:gap-2">
+        <div className="flex gap-4 md:gap-7">
           {items.map((item, index) => (
-            <div key={index} className="flex-[0_0_80%] md:flex-[0_0_70%]">
-              <div className="relative h-[28.125rem] md:h-[22rem] rounded-2xl shadow-xl overflow-hidden bg-white">
+            <div
+              key={index}
+              className="flex-[0_0_80%] md:flex-[0_0_55%] lg:flex-[0_0_40%]">
+              <div className="relative h-[28.125rem] rounded-2xl shadow-xl overflow-hidden bg-white md:h-[31.25rem]">
                 {/* Background */}
                 {!item.productCard && (
-                  <picture className="absolute inset-0">
+                  <picture className="absolute inset-0 xl:-top-16">
                     {item.bgTabletImage && (
                       <source
                         media="(min-width: 768px)"

@@ -51,9 +51,9 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="flex flex-col justify-center w-[90%]">
+    <section className="flex flex-col justify-center w-[90%] md:pt-10">
       <div className="flex flex-col gap-6">
-        <h1 className="font-apple font-semibold text-verdeClaro text-[3rem] leading-12 w-[90%]">
+        <h1 className="font-apple font-semibold text-verdeClaro text-[3rem] leading-12 w-[90%] md:text-[5rem] md:leading-20 md:w-5/6 lg:w-2/3">
           Apple Store para Educação
         </h1>
         <span className="font-apple font-semibold text-[1.375rem] text-CinzaEscuro leading-5">
@@ -74,15 +74,15 @@ export default function HeroSection() {
               <div
                 key={item.id}
                 className="
-          flex-shrink-0
+          shrink-0
           w-[25%]
           snap-start
-          flex flex-col items-center
+          flex flex-col items-center lg:w-[15%]
         ">
                 <img
                   src={item.urlImg}
                   alt={item.content}
-                  className="h-16 w-auto object-contain"
+                  className="h-16 w-auto object-contain md:h-[5rem]"
                 />
 
                 <span className="mt-2 font-apple text-sm font-medium text-CinzaEscuro text-center">
